@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +37,24 @@ namespace AccountModule
             string login = Console.ReadLine();
             string password = Console.ReadLine();
 
-            Console.WriteLine("login: {0}\npassword: {1}", login, password);
+            string connectionString = @"Server=localhost;Database=MyCalendar;Trusted_Connection=True";
 
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "usp_CalendarUserAdd";
+
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
+
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
 
         static void Login()
