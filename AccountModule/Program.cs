@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -37,8 +38,7 @@ namespace AccountModule
             string login = Console.ReadLine();
             string password = Console.ReadLine();
 
-            string connectionString = @"Server=localhost;Database=MyCalendar;Trusted_Connection=True";
-
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
@@ -61,10 +61,10 @@ namespace AccountModule
             string password = Console.ReadLine();
 
             DataSet dataSet = new DataSet();
-            string connectionString = @"Server=localhost;Database=MyCalendar;Trusted_Connection=True";
 
             try
             {
+                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
