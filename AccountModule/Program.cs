@@ -38,19 +38,31 @@ namespace AccountModule
             string login = Console.ReadLine();
             string password = Console.ReadLine();
 
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            try
             {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
+                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "usp_CalendarUserAdd";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
-                    sqlCommand.ExecuteNonQuery();
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand())
+                    {
+                        sqlCommand.Connection = sqlConnection;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.CommandText = "usp_CalendarUserAdd";
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
+                        sqlCommand.ExecuteNonQuery();
+                    }
                 }
+                Console.WriteLine("Account {0} has been created.", login);
+            }
+            catch (SqlException sqlException) when (sqlException.Number == 2627)
+            {
+                Console.WriteLine("Account {0} already exists.", login);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
             }
         }
 
@@ -84,13 +96,14 @@ namespace AccountModule
 
                         sqlDataAdapter.Fill(dataSet);
 
-                        if (dataSet.Tables.Count != 0)
+                        if (dataSet.Tables.Count != 0)  //
                         {
-                            Console.WriteLine(dataSet.Tables[0].Rows[0]["CalendarUser_Id"]);
+                            Console.WriteLine("Logged in as a user {0}.", dataSet.Tables[0].Rows[0]["CalendarUser_Id"]);
                             return dataSet;
                         }
                         else
                         {
+                            Console.WriteLine("Bad user name or password.");
                             return null;
                         }
                     }
