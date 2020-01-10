@@ -96,7 +96,7 @@ namespace AccountModule
 
                         sqlDataAdapter.Fill(dataSet);
 
-                        if (dataSet.Tables.Count != 0)  //
+                        if (dataSet.Tables[0].Rows.Count != 0)
                         {
                             Console.WriteLine("Logged in as a user {0}.", dataSet.Tables[0].Rows[0]["CalendarUser_Id"]);
                             return dataSet;
