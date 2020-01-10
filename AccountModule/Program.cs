@@ -13,7 +13,7 @@ namespace AccountModule
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("MyCalendar");
+            Console.WriteLine("AccountModule");
             Console.WriteLine("1. Create account");
             Console.WriteLine("2. Log in");
             int action = Convert.ToInt32(Console.ReadLine());
