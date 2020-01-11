@@ -31,7 +31,6 @@ namespace AccountModule
 
             Console.ReadLine();
         }
-
         static void CreateAccount()
         {
             Console.WriteLine("Insert login and password.");
