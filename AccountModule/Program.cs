@@ -47,7 +47,7 @@ namespace AccountModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "usp_CalendarUserAdd";
+                        sqlCommand.CommandText = "mc.usp_ParticipantAdd";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
                         sqlCommand.ExecuteNonQuery();
@@ -83,7 +83,7 @@ namespace AccountModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "usp_GetCalendarUser_Id";
+                        sqlCommand.CommandText = "mc.usp_GetParticipant_Id";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
                         SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
@@ -97,7 +97,7 @@ namespace AccountModule
 
                         if (dataSet.Tables[0].Rows.Count != 0)
                         {
-                            Console.WriteLine("Logged in as a user {0}.", dataSet.Tables[0].Rows[0]["CalendarUser_Id"]);
+                            Console.WriteLine("Logged in as a user {0}.", dataSet.Tables[0].Rows[0]["Participant_Id"]);
                             return dataSet;
                         }
                         else
