@@ -62,7 +62,7 @@ namespace TasksModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_GetTasks";
+                        sqlCommand.CommandText = "mc.usp_TasksGet";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", participant_Id));
                         SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -112,7 +112,7 @@ namespace TasksModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_AddTask";
+                        sqlCommand.CommandText = "mc.usp_TaskAdd";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Name", name));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Description", description));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", participant_Id));
@@ -143,7 +143,7 @@ namespace TasksModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_EditTask";
+                        sqlCommand.CommandText = "mc.usp_TaskEdit";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Id", task_Id));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Name", name));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Description", description));
@@ -171,7 +171,7 @@ namespace TasksModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_DeleteTask";
+                        sqlCommand.CommandText = "mc.usp_TaskDelete";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Id", task_Id));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", participant_Id));
                         sqlCommand.ExecuteNonQuery();

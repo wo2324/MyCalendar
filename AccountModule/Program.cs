@@ -83,7 +83,7 @@ namespace AccountModule
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_GetParticipant_Id";
+                        sqlCommand.CommandText = "mc.usp_ParticipantGet";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
                         SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
