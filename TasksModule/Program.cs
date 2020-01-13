@@ -63,7 +63,7 @@ namespace TasksModule
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
                         sqlCommand.CommandText = "mc.usp_GetTasks";
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", participant_Id));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", participant_Id));
                         SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
                         if (sqlConnection.State == ConnectionState.Closed)
@@ -129,7 +129,34 @@ namespace TasksModule
 
         static void EditTask(int Participant_Id, int task_Id)
         {
+            Console.WriteLine("Insert task name and description.");
+            string name = Console.ReadLine();
+            string description = Console.ReadLine();
 
+            try
+            {
+                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand())
+                    {
+                        sqlCommand.Connection = sqlConnection;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.CommandText = "mc.usp_EditTask";
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Id", task_Id));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Name", name));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Description", description));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", Participant_Id));
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+                Console.WriteLine("Task {0} has been edit.", name);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
         static void DeleteTask(int Participant_Id, int task_Id)
