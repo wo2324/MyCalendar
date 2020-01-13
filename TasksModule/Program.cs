@@ -48,12 +48,55 @@ namespace TasksModule
             Console.ReadLine();
         }
 
-        static void ShowTasks(int Participant_Id)
+        static void ShowTasks(int participant_Id)
         {
-            
+            DataSet dataSet = new DataSet();
+
+            try
+            {
+                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand())
+                    {
+                        sqlCommand.Connection = sqlConnection;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.CommandText = "mc.usp_GetTasks";
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", participant_Id));
+                        SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                        if (sqlConnection.State == ConnectionState.Closed)
+                        {
+                            sqlConnection.Open();
+                        }
+
+                        sqlDataAdapter.Fill(dataSet);
+
+                        if (dataSet != null)
+                        {
+                            foreach (DataTable dataTable in dataSet.Tables)
+                            {
+                                foreach (DataRow dataRow in dataTable.Rows)
+                                {
+                                    string task_Id = dataRow["Task_Id"].ToString();
+                                    string task_Name = dataRow["Task_Name"].ToString();
+                                    string task_Description = dataRow["Task_Description"].ToString();
+
+                                    Console.WriteLine("{0} - {1} - {2}", task_Id, task_Name, task_Description);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
-        static void AddTask(int Participant_Id)
+        static void AddTask(int participant_Id)
         {
             Console.WriteLine("Insert task name and description.");
             string name = Console.ReadLine();
@@ -72,7 +115,7 @@ namespace TasksModule
                         sqlCommand.CommandText = "mc.usp_AddTask";
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Name", name));
                         sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Description", description));
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", Participant_Id));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", participant_Id));
                         sqlCommand.ExecuteNonQuery();
                     }
                 }
