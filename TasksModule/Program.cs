@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,26 +20,26 @@ namespace TasksModule
             Console.WriteLine("4. Delete task");
             int action = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Insert CalendarUser_Id");
-            int calendarUser_Id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Insert Participant_Id");
+            int Participant_Id = Convert.ToInt32(Console.ReadLine());
             int task_Id;
             switch (action)
             {
                 case 1:
-                    ShowTasks(calendarUser_Id);
+                    ShowTasks(Participant_Id);
                     break;
                 case 2:
-                    AddTask(calendarUser_Id);
+                    AddTask(Participant_Id);
                     break;
                 case 3:
                     Console.WriteLine("Insert Task_Id");
                     task_Id = Convert.ToInt32(Console.ReadLine());
-                    EditTask(calendarUser_Id, task_Id);
+                    EditTask(Participant_Id, task_Id);
                     break;
                 case 4:
                     Console.WriteLine("Insert Task_Id");
                     task_Id = Convert.ToInt32(Console.ReadLine());
-                    DeleteTask(calendarUser_Id, task_Id);
+                    DeleteTask(Participant_Id, task_Id);
                     break;
                 default:
                     break;
@@ -45,22 +48,48 @@ namespace TasksModule
             Console.ReadLine();
         }
 
-        static void ShowTasks(int calendarUser_Id)
+        static void ShowTasks(int Participant_Id)
+        {
+            
+        }
+
+        static void AddTask(int Participant_Id)
+        {
+            Console.WriteLine("Insert task name and description.");
+            string name = Console.ReadLine();
+            string description = Console.ReadLine();
+
+            try
+            {
+                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand())
+                    {
+                        sqlCommand.Connection = sqlConnection;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.CommandText = "mc.usp_AddTask";
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Name", name));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Description", description));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", Participant_Id));
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+                Console.WriteLine("Task {0} has been created.", name);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        static void EditTask(int Participant_Id, int task_Id)
         {
 
         }
 
-        static void AddTask(int calendarUser_Id)
-        {
-
-        }
-
-        static void EditTask(int calendarUser_Id, int task_Id)
-        {
-
-        }
-
-        static void DeleteTask(int calendarUser_Id, int task_Id)
+        static void DeleteTask(int Participant_Id, int task_Id)
         {
 
         }
