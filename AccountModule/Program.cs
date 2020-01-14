@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -48,8 +49,8 @@ namespace AccountModule
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
                         sqlCommand.CommandText = "mc.usp_ParticipantAdd";
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", login));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Password", password));
                         sqlCommand.ExecuteNonQuery();
                     }
                 }
@@ -84,8 +85,8 @@ namespace AccountModule
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.CommandType = CommandType.StoredProcedure;
                         sqlCommand.CommandText = "mc.usp_ParticipantGet";
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Name", login));
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Password", password));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", login));
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Password", password));
                         SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
                         if (sqlConnection.State == ConnectionState.Closed)
