@@ -6,20 +6,19 @@
         xmlns:local="clr-namespace:MyCalendar"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TabControl>
-            <TabItem Header="Test">
-                TestValue
-            </TabItem>
-            <TabItem Header="Test">
-                TestValue
-            </TabItem>
-            <TabItem Header="Test">
-                TestValue
-            </TabItem>
-            <TabItem Header="Test">
-                TestValue
-            </TabItem>
-        </TabControl>
+    <Grid Background="#747474">
+        <Border Margin="20" Background="#50514F" CornerRadius="10">
+            <DockPanel Margin="20" LastChildFill="False">
+                <Border DockPanel.Dock="Left" Width="200" Margin="10" Background="#D4D4D4D4">
+                    <Label>Plany</Label>
+                </Border>
+                <Border DockPanel.Dock="Left" Width="200" Margin="10" Background="#D4D4D4D4">
+                    <Label>Stwórz nowy plan</Label>
+                </Border>
+                <Border DockPanel.Dock="Right" Width="200" Margin="10" Background="#D4D4D4D4">
+                    <Label>Konto</Label>
+                </Border>
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>
