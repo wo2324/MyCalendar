@@ -61,9 +61,12 @@
     <Compile Include="CreatePlanner.xaml.cs">
       <DependentUpon>CreatePlanner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Planner.cs" />
+    <Compile Include="PlannerElement.cs" />
     <Compile Include="Planner.xaml.cs">
       <DependentUpon>Planner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Planner2.xaml.cs">
+      <DependentUpon>Planner2.xaml</DependentUpon>
     </Compile>
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
@@ -89,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Planner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Planner2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
