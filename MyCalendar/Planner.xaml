@@ -13,11 +13,30 @@
                 <Button Click="Button_Click" Width="100">Add color</Button>
             </WrapPanel>
             <ListBox x:Name="ColorList" SelectionMode="Multiple" SelectionChanged="ColorList_SelectionChanged">
-
             </ListBox>
             <Button Width="100" HorizontalAlignment="Right" Click="Button_Click_1">Remove selected color</Button>
-            <DataGrid x:Name="PlannerDataGrid" Margin="20">
-
+            <DataGrid x:Name="PlannerDataGrid" Margin="20" 
+                      CanUserSortColumns="False" 
+                      CanUserResizeColumns="False" 
+                      CanUserReorderColumns="False" 
+                      CanUserResizeRows="False"
+                      SelectionMode="Extended"
+                      SelectionUnit="Cell"
+                      ColumnWidth="*">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Poniedziałek" Binding="{Binding Path=Monday}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="Red"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="FontStyle" Value="Italic"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
     </Grid>
