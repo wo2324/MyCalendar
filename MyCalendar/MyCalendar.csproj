@@ -55,32 +55,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateAccount.xaml.cs">
+    <Compile Include="Test\CreateAccount.xaml.cs">
       <DependentUpon>CreateAccount.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreatePlanner.xaml.cs">
+    <Compile Include="Test\CreatePlanner.xaml.cs">
       <DependentUpon>CreatePlanner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Person.cs" />
+    <Compile Include="Test\Person.cs" />
     <Compile Include="PlannerElement.cs" />
-    <Compile Include="Planner.xaml.cs">
+    <Compile Include="Test\Planner.xaml.cs">
       <DependentUpon>Planner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Planner2.xaml.cs">
+    <Compile Include="Test\Planner2.xaml.cs">
       <DependentUpon>Planner2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartWindow.xaml.cs">
+    <Compile Include="Planner3.xaml.cs">
+      <DependentUpon>Planner3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test\StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="CreateAccount.xaml">
+    <Page Include="Test\CreateAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreatePlanner.xaml">
+    <Page Include="Test\CreatePlanner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Test\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -88,19 +91,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Test\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Planner.xaml">
+    <Page Include="Test\Planner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Planner2.xaml">
+    <Page Include="Test\Planner2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartWindow.xaml">
+    <Page Include="Planner3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test\StartWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
