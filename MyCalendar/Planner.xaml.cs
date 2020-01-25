@@ -33,10 +33,10 @@ namespace MyCalendar
 
             ColorList.ItemsSource = Colors;
 
-            ColorsGrid.Add(new PlannerElement(1, 21, 2));
-            ColorsGrid.Add(new PlannerElement(234, 34253, 0));
-            ColorsGrid.Add(new PlannerElement(153, 1, 4536));
-            ColorsGrid.Add(new PlannerElement(0,2351, 124));
+            //ColorsGrid.Add(new PlannerElement(1, 21, 2));
+            //ColorsGrid.Add(new PlannerElement(234, 34253, 0));
+            //ColorsGrid.Add(new PlannerElement(153, 1, 4536));
+            //ColorsGrid.Add(new PlannerElement(0,2351, 124));
 
             PlannerDataGrid.ItemsSource = ColorsGrid;
         }

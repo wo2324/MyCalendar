@@ -61,6 +61,7 @@
     <Compile Include="CreatePlanner.xaml.cs">
       <DependentUpon>CreatePlanner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Person.cs" />
     <Compile Include="PlannerElement.cs" />
     <Compile Include="Planner.xaml.cs">
       <DependentUpon>Planner.xaml</DependentUpon>

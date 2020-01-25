@@ -20,45 +20,17 @@ namespace MyCalendar
     /// </summary>
     public partial class Planner2 : Window
     {
-        ObservableCollection<string> Colors = new ObservableCollection<string>();
-        ObservableCollection<PlannerElement> ColorsGrid = new ObservableCollection<PlannerElement>();
+        ObservableCollection<Person> Persons = new ObservableCollection<Person>();
+
         public Planner2()
         {
             InitializeComponent();
 
-            Colors.Add("pink");
-            Colors.Add("orange");
-            Colors.Add("green");
-            Colors.Add("black1");
+            Persons.Add(new Person("Wojciech", "Klanowski", 23));
+            Persons.Add(new Person("Michał", "Lasocki", 22));
+            Persons.Add(new Person("Anna", "Kielch", 32));
 
-            ColorList.ItemsSource = Colors;
-
-            ColorsGrid.Add(new PlannerElement(1, 21, 2));
-            ColorsGrid.Add(new PlannerElement(234, 34253, 0));
-            ColorsGrid.Add(new PlannerElement(153, 1, 4536));
-            ColorsGrid.Add(new PlannerElement(0, 2351, 124));
-
-            PlannerDataGrid.ItemsSource = ColorsGrid;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Colors.Add(ColorToAdd.Text);
-            //ColorList.Items.Add();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            int selectedColorListIndex = ColorList.SelectedIndex;
-            if (selectedColorListIndex != -1)
-            {
-                Colors.RemoveAt(selectedColorListIndex);
-            }
-        }
-
-        private void ColorList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ColorList.SelectedIndex.ToString();
+            PersonDataGrid.ItemsSource = Persons;
         }
     }
 }
