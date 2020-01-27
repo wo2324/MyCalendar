@@ -29,13 +29,13 @@ namespace MyCalendar
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string login = Login.Text;
-            string password = Password.Password;
+            string login = LoginTextBox.Text;
+            string password = PasswordTextBox.Password;
 
             LoginProcess(login, password);
         }
 
-        static void LoginProcess(string login, string password)
+        void LoginProcess(string login, string password)
         {
             DataSet dataSet = new DataSet();
 
@@ -63,23 +63,30 @@ namespace MyCalendar
 
                         if (dataSet.Tables[0].Rows.Count != 0)
                         {
-                            Console.WriteLine("Logged in as a user {0}.", dataSet.Tables[0].Rows[0]["Participant_Id"]);
-                            
-                            //return dataSet;
+                            MainWindow mainWindow = new MainWindow();
+                            mainWindow.Show();
+                            this.Close();
                         }
                         else
                         {
-                            Console.WriteLine("Bad user name or password.");
-                            //return null;
+                            MessageBox.Show("Bad user name or password");
+                            PasswordTextBox.Clear();
                         }
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
-                //return null;
+                MessageBox.Show(exception.Message);
+                PasswordTextBox.Clear();
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            CreateAccount createAccount = new CreateAccount();
+            createAccount.Show();
+            this.Close();
         }
     }
 }
