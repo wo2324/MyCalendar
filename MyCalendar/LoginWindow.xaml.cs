@@ -47,7 +47,7 @@ namespace MyCalendar
             DataSet dataSet = new DataSet();
             try
             {
-                string connectionString = "Server=localhost;Database=MyCalendar;Trusted_Connection=True";
+                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
