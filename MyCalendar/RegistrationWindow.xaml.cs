@@ -20,9 +20,9 @@ namespace MyCalendar
     /// <summary>
     /// Interaction logic for CreateAccount.xaml
     /// </summary>
-    public partial class CreateAccounts : Window
+    public partial class RegistrationWindow : Window
     {
-        public CreateAccounts()
+        public RegistrationWindow()
         {
             InitializeComponent();
         }
@@ -43,7 +43,7 @@ namespace MyCalendar
                 }
                 else
                 {
-                    MessageBox.Show("Giver passwords are non-identical");
+                    MessageBox.Show("Given passwords are non-identical");
                     PasswordTextBox.Clear();
                     PasswordTextBox_1.Clear();
                 }

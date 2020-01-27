@@ -20,9 +20,9 @@ namespace MyCalendar
     /// <summary>
     /// Interaction logic for StartWindow.xaml
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class LoginWindow : Window
     {
-        public StartWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }
@@ -31,14 +31,20 @@ namespace MyCalendar
         {
             string login = LoginTextBox.Text;
             string password = PasswordTextBox.Password;
-
-            LoginProcess(login, password);
+            if (login.Length != 0 && PasswordTextBox.Password.Length != 0)
+            {
+                Login(login, password);
+            }
+            else
+            {
+                MessageBox.Show("All fields must be filled");
+                PasswordTextBox.Clear();
+            }
         }
 
-        void LoginProcess(string login, string password)
+        void Login(string login, string password)
         {
             DataSet dataSet = new DataSet();
-
             try
             {
                 string connectionString = "Server=localhost;Database=MyCalendar;Trusted_Connection=True";
@@ -84,7 +90,7 @@ namespace MyCalendar
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            CreateAccounts createAccount = new CreateAccounts();
+            RegistrationWindow createAccount = new RegistrationWindow();
             createAccount.Show();
             this.Close();
         }
