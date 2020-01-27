@@ -6,12 +6,9 @@
         xmlns:local="clr-namespace:MyCalendar"
         mc:Ignorable="d"
         Title="Planner3" Height="450" Width="800">
-    <Window.Resources>
-        <local:NameToBrushConverter x:Key="NameToBrushConverter"/>
-    </Window.Resources>
     <Grid x:Name="PlannerGrid" Background="#747474">
         <DataGrid x:Name="PlannerDataGrid" Margin="20" 
-                  AutoGenerateColumns="False"
+                  AutoGenerateColumns="True"
                   ColumnWidth="*"
                   HeadersVisibility="Column"
                   CanUserSortColumns="False" 
@@ -19,43 +16,7 @@
                   CanUserResizeColumns="False" 
                   CanUserResizeRows="False"
                   SelectionUnit="Cell"
-                  SelectionMode="Extended">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Time" Binding="{Binding Path=Time}" IsReadOnly="True">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="Pink"/>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Monday" Binding="{Binding Path=MondayActivity}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Style.Triggers>
-                                <Trigger Property="Text" Value="work">
-                                    <Setter Property="Background" Value="LightGreen"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Monday" Binding="{Binding Path=MondayActivity}"/>
-                <DataGridTextColumn Header="Tuesday" Binding="{Binding Path=TuesdayActivity}"/>
-                <DataGridTextColumn Header="Wednesday" Binding="{Binding Path=WednesdayActivity}"/>
-                <DataGridTextColumn Header="Thursday" Binding="{Binding Path=ThursdayActivity}"/>
-                <DataGridTextColumn Header="Friday" Binding="{Binding Path=FridayActivity}"/>
-                <DataGridTextColumn Header="Saturday" Binding="{Binding Path=SaturdayActivity}"/>
-                <DataGridTextColumn Header="Sunday" Binding="{Binding Path=SundayActivity}"/>
-            </DataGrid.Columns>
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=MondayActivity}" Value="chill">
-                            <Setter Property="Background" Value="Yellow"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
+                  SelectionMode="Extended" Loaded="PlannerDataGrid_Loaded">
         </DataGrid>
     </Grid>
 </Window>

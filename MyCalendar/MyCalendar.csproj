@@ -74,7 +74,7 @@
     <Compile Include="Planner3.xaml.cs">
       <DependentUpon>Planner3.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Test\StartWindow.xaml.cs">
+    <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Test\CreateAccount.xaml">
@@ -109,7 +109,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test\StartWindow.xaml">
+    <Page Include="StartWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
