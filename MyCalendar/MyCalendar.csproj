@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,7 +66,7 @@
     </Compile>
     <Compile Include="Test\Person.cs" />
     <Compile Include="PlannerElement.cs" />
-    <Compile Include="Test\Planner.xaml.cs">
+    <Compile Include="Planner.xaml.cs">
       <DependentUpon>Planner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Test\Planner2.xaml.cs">
@@ -97,7 +98,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Test\Planner.xaml">
+    <Page Include="Planner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

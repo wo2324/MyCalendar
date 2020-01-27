@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,7 @@ namespace MyCalendar.Test
     public partial class Planner3 : Window
     {
         //ObservableCollection<PlannerElement> Elements = new ObservableCollection<PlannerElement>();
+        ObservableCollection<string> Colors = new ObservableCollection<string>();
 
         public Planner3()
         {
@@ -37,35 +40,72 @@ namespace MyCalendar.Test
             //Elements.Add(new PlannerElement("13:15",
             //    "work", "work", "work", "study",
             //    "study", "study", "chill"));
+            Colors.Add("pink");
+            Colors.Add("orange");
+            Colors.Add("green");
+            Colors.Add("black1");
+
+            ColorList.ItemsSource = Colors;
+            FillDataGrid();
+        }
+
+        private void ColorList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ColorList.SelectedIndex.ToString();
         }
 
         private void FillDataGrid()
         {
-            DataTable dataTable = new DataTable();
-            dataTable.TableName = "SampleTable";
+            DataSet dataSet = new DataSet();
 
-            DataColumn id = new DataColumn("id", typeof(int));
-            DataColumn name = new DataColumn("name", typeof(string));
-            DataColumn surname = new DataColumn("surname", typeof(string));
-            DataColumn age = new DataColumn("age", typeof(int));
+            try
+            {
+                string connectionString = "Server=localhost;Database=MyCalendar;Trusted_Connection=True";
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand())
+                    {
+                        sqlCommand.Connection = sqlConnection;
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.CommandText = "mc.usp_TasksGet";
+                        sqlCommand.Parameters.Add(new SqlParameter("@p_Task_Participant_Id", 1));
+                        SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
-            dataTable.Columns.Add(id);
-            dataTable.Columns.Add(name);
-            dataTable.Columns.Add(surname);
-            dataTable.Columns.Add(age);
+                        if (sqlConnection.State == ConnectionState.Closed)
+                        {
+                            sqlConnection.Open();
+                        }
 
-            dataTable.Rows.Add(1, "Wojciech", "Klanowski", 23);
-            dataTable.Rows.Add(2, "Michał", "Adam", 24);
-            dataTable.Rows.Add(3, "Kinga", "Wojciech", 23);
-            dataTable.Rows.Add(4, "Wojciech", "Giza", 21);
+                        sqlDataAdapter.Fill(dataSet);
 
-            PlannerDataGrid.ItemsSource = dataTable.DefaultView;
+                        if (dataSet != null)
+                        {
+                            foreach (DataTable dataTable in dataSet.Tables)
+                            {
+                                foreach (DataRow dataRow in dataTable.Rows)
+                                {
+                                    string task_Id = dataRow["Task_Id"].ToString();
+                                    string task_Name = dataRow["Task_Name"].ToString();
+                                    string task_Description = dataRow["Task_Description"].ToString();
+
+                                    Console.WriteLine("{0} - {1} - {2}", task_Id, task_Name, task_Description);
+                                    PlannerDataGrid.ItemsSource = dataTable.DefaultView;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
         private void PlannerDataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            FillDataGrid(); 
-            GetDataGridRows();
+            //GetDataGridRows();
         }
         public void GetDataGridRows()
         {
@@ -78,7 +118,7 @@ namespace MyCalendar.Test
                     //loop throught cell
                     DataGridCell cell = GetCell(i, j);
                     TextBlock tb = cell.Content as TextBlock;
-                    if (tb.Text == "Wojciech")
+                    if (tb.Text == "Task")
                     {
                         cell.Background = Brushes.Red;
                     }
@@ -151,6 +191,17 @@ namespace MyCalendar.Test
                 }
             }
             return child;
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataTable dt = new DataTable();
+            dt = ((DataView)PlannerDataGrid.ItemsSource).ToTable();
+            foreach (DataRow dataRow in dt.Rows)
+            {
+                string id = dataRow["Task_Id"].ToString();
+                int s;
+            }
         }
     }
 }

@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="Planner3" Height="450" Width="800">
     <Grid x:Name="PlannerGrid" Background="#747474">
-        <DataGrid x:Name="PlannerDataGrid" Margin="20" 
+        <StackPanel>
+            <ComboBox x:Name="ColorList" SelectionChanged="ColorList_SelectionChanged"/>
+            <DataGrid x:Name="PlannerDataGrid" Margin="20" 
                   AutoGenerateColumns="True"
                   ColumnWidth="*"
                   HeadersVisibility="Column"
@@ -17,6 +19,11 @@
                   CanUserResizeRows="False"
                   SelectionUnit="Cell"
                   SelectionMode="Extended" Loaded="PlannerDataGrid_Loaded">
-        </DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding ParameterName}" Width="100"  Header="Parameter Name" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="UpdateButton" HorizontalAlignment="Right" Width="200" Margin="10" Click="UpdateButton_Click">Confirm changes</Button>
+        </StackPanel>
     </Grid>
 </Window>
