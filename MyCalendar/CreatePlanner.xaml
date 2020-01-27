@@ -12,7 +12,7 @@
                 <Label Content="Create planner" HorizontalAlignment="Left" FontSize="16" Foreground="#D4D4D4D4"/>
                 <Separator Foreground="#E9E9E9E9"></Separator>
                 
-                <Button Background="#D4D4D4D4" Margin="130,20,0,20" Content="Confirm"/>
+                <Button Background="#D4D4D4D4" Margin="130,20,0,20" Content="Confirm" Click="Button_Click"/>
             </StackPanel>
         </Border>
     </Grid>

@@ -23,5 +23,12 @@ namespace MyCalendar
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            NewPlanner newPlanner = new NewPlanner();
+            newPlanner.Show();
+            this.Close();
+        }
     }
 }

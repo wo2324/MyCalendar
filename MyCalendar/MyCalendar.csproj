@@ -58,10 +58,13 @@
     </ApplicationDefinition>
     <Compile Include="ColorConverter.cs" />
     <Compile Include="NameToBrushConverter.cs" />
+    <Compile Include="NewPlanner.xaml.cs">
+      <DependentUpon>NewPlanner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Test\CreateAccount.xaml.cs">
       <DependentUpon>CreateAccount.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Test\CreatePlanner.xaml.cs">
+    <Compile Include="CreatePlanner.xaml.cs">
       <DependentUpon>CreatePlanner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Test\Person.cs" />
@@ -78,11 +81,15 @@
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="NewPlanner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Test\CreateAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test\CreatePlanner.xaml">
+    <Page Include="CreatePlanner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
