@@ -84,7 +84,7 @@ namespace MyCalendar
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            CreateAccount createAccount = new CreateAccount();
+            CreateAccounts createAccount = new CreateAccounts();
             createAccount.Show();
             this.Close();
         }
