@@ -69,7 +69,7 @@ namespace MyCalendar
 
                         if (dataSet.Tables[0].Rows.Count != 0)
                         {
-                            MainWindow mainWindow = new MainWindow();
+                            PanelWindow mainWindow = new PanelWindow();
                             mainWindow.Show();
                             this.Close();
                         }
