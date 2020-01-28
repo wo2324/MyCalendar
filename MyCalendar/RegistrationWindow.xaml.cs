@@ -49,28 +49,24 @@ namespace MyCalendar
                     catch (SqlException sqlException) when (sqlException.Number == 2627)
                     {
                         MessageBox.Show("Account {0} already exists", login);
-                        PasswordBox.Clear();
-                        PasswordBox_1.Clear();
+                        PasswordBoxesClear();
                     }
                     catch (Exception exception)
                     {
                         MessageBox.Show(exception.Message);
-                        PasswordBox.Clear();
-                        PasswordBox_1.Clear();
+                        PasswordBoxesClear();
                     }
                 }
                 else
                 {
                     MessageBox.Show("Given passwords are non-identical");
-                    PasswordBox.Clear();
-                    PasswordBox_1.Clear();
+                    PasswordBoxesClear();
                 }
             }
             else
             {
                 MessageBox.Show("All fields must be filled");
-                PasswordBox.Clear();
-                PasswordBox_1.Clear();
+                PasswordBoxesClear();
             }
         }
 
@@ -90,6 +86,12 @@ namespace MyCalendar
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+        private void PasswordBoxesClear()
+        {
+            PasswordBox.Clear();
+            PasswordBox_1.Clear();
         }
     }
 }

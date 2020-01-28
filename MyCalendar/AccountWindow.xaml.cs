@@ -22,76 +22,88 @@ namespace MyCalendar
     /// </summary>
     public partial class AccountWindow : Window
     {
-        public AccountWindow()
+        public Participant Participant { get; }
+        public AccountWindow(Participant participant)
         {
+            this.Participant = participant;
             InitializeComponent();
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        private void ChangePasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            string password = PasswordBox.Password;
-            string newPassword;
-            if (password.Length != 0 && NewPasswordBox.Password.Length != 0 && NewPasswordBox_1.Password.Length != 0)
+            ChangePassword(PasswordBox.Password, NewPasswordBox.Password, NewPasswordBox_1.Password);
+        }
+
+        private void ChangePassword(string password, string newPassword, string newPasswordSample)
+        {
+            if (password.Length != 0 && newPassword.Length != 0 && newPasswordSample.Length != 0)
             {
-                if (true)   //walidacja hasła
+                if (this.Participant.Participant_Password == password)
                 {
-                    if (NewPasswordBox.Password == NewPasswordBox_1.Password)
+                    if (newPassword == newPasswordSample)
                     {
-                        newPassword = NewPasswordBox.Password;
-                        EditPassword(1, newPassword);
-                        this.Close();
+                        if (password != newPassword)
+                        {
+                            try
+                            {
+                                EditPassword(this.Participant.Participant_Id, newPassword);
+                                MessageBox.Show("Password has been edit");
+                                this.Close();
+                            }
+                            catch (Exception exception)
+                            {
+                                MessageBox.Show(exception.Message);
+                                PasswordBoxesClear();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("The new password must be different from the current one");
+                            PasswordBoxesClear();
+                        }
                     }
                     else
                     {
                         MessageBox.Show("Given new passwords are non-identical");
-                        PasswordBox.Clear();
-                        NewPasswordBox.Clear();
-                        NewPasswordBox_1.Clear();
+                        PasswordBoxesClear();
                     }
                 }
                 else
                 {
                     MessageBox.Show("Bad password");
-                    PasswordBox.Clear();
-                    NewPasswordBox.Clear();
-                    NewPasswordBox_1.Clear();
+                    PasswordBoxesClear();
                 }
             }
             else
             {
                 MessageBox.Show("All fields must be filled");
-                PasswordBox.Clear();
-                NewPasswordBox.Clear();
-                NewPasswordBox_1.Clear();
+                PasswordBoxesClear();
             }
         }
+
         private void EditPassword(int Participant_Id, string newPassword)
         {
-            try
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
                 {
-                    sqlConnection.Open();
-                    using (SqlCommand sqlCommand = new SqlCommand())
-                    {
-                        sqlCommand.Connection = sqlConnection;
-                        sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_PasswordEdit";
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", Participant_Id));
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_NewPassword", newPassword));
-                        sqlCommand.ExecuteNonQuery();
-                    }
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_PasswordEdit";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", Participant_Id));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_NewPassword", newPassword));
+                    sqlCommand.ExecuteNonQuery();
                 }
-                MessageBox.Show("Password has been edit");
             }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-                PasswordBox.Clear();
-                NewPasswordBox.Clear();
-                NewPasswordBox_1.Clear();
-            }
+        }
+
+        private void PasswordBoxesClear()
+        {
+            PasswordBox.Clear();
+            NewPasswordBox.Clear();
+            NewPasswordBox_1.Clear();
         }
     }
 }

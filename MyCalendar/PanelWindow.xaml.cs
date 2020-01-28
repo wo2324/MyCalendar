@@ -20,14 +20,16 @@ namespace MyCalendar
     /// </summary>
     public partial class PanelWindow : Window
     {
+        public Participant Participant { get; }
         public PanelWindow(Participant participant)
         {
+            this.Participant = participant;
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AccountWindow accountWindow = new AccountWindow();
+            AccountWindow accountWindow = new AccountWindow(this.Participant);
             accountWindow.Show();
         }
     }
