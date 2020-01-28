@@ -115,7 +115,6 @@ namespace MyCalendar
         DataTable CreateContent(string planner)
         {
             DataTable content = new DataTable(planner);
-            content.Columns.Add("Time", typeof(string));
             content.Columns.Add("Monday", typeof(string));
             content.Columns.Add("Tuesday", typeof(string));
             content.Columns.Add("Wedneday", typeof(string));
@@ -124,6 +123,7 @@ namespace MyCalendar
             content.Columns.Add("Saturday", typeof(string));
             content.Columns.Add("Sunday", typeof(string));
 
+            #region Time counting
             string time;
             int hour;
             int minute;
@@ -149,8 +149,9 @@ namespace MyCalendar
                     minute = 0;
                 }
 
-                content.Rows.Add(time, null, null, null, null, null, null, null);
+                content.Rows.Add(null, null, null, null, null, null, null);
             }
+            #endregion
             return content;
         }
 

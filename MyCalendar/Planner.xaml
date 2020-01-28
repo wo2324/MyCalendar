@@ -9,7 +9,11 @@
         Height="450" 
         Width="800">
     <Grid>
-        <DataGrid x:Name="PlannerDataGrid" 
+        <DockPanel>
+            <ListBox>
+
+            </ListBox>
+            <DataGrid x:Name="PlannerDataGrid" 
                 AutoGenerateColumns="True"
                 ColumnWidth="*"
                 HeadersVisibility="Column"
@@ -20,6 +24,7 @@
                 CanUserAddRows="False"
                 SelectionUnit="Cell"
                 SelectionMode="Extended">
-        </DataGrid>
+            </DataGrid>
+        </DockPanel>
     </Grid>
 </Window>
