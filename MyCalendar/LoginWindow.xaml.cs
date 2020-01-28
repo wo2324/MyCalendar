@@ -30,62 +30,74 @@ namespace MyCalendar
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string login = LoginTextBox.Text;
-            string password = PasswordTextBox.Password;
-            if (login.Length != 0 && PasswordTextBox.Password.Length != 0)
+            string password = PasswordBox.Password;
+            Login(login, password);
+        }
+
+        private void Login(string login, string password)
+        {
+            if (login.Length != 0 && PasswordBox.Password.Length != 0)
             {
-                Login(login, password);
+                try
+                {
+                    int id = ParticipantIdGet(login, password);
+                    if (id != 0)
+                    {
+                        PanelWindow mainWindow = new PanelWindow(new Participant(id, login, password));
+                        mainWindow.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bad user name or password");
+                        PasswordBox.Clear();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                    PasswordBox.Clear();
+                }
             }
             else
             {
                 MessageBox.Show("All fields must be filled");
-                PasswordTextBox.Clear();
+                PasswordBox.Clear();
             }
         }
 
-        void Login(string login, string password)
+        int ParticipantIdGet(string login, string password)
         {
-            DataSet dataSet = new DataSet();
-            try
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
                 {
-                    sqlConnection.Open();
-                    using (SqlCommand sqlCommand = new SqlCommand())
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_ParticipantGet";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", login));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Password", password));
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                    if (sqlConnection.State == ConnectionState.Closed)
                     {
-                        sqlCommand.Connection = sqlConnection;
-                        sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.CommandText = "mc.usp_ParticipantGet";
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", login));
-                        sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Password", password));
-                        SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                        sqlConnection.Open();
+                    }
 
-                        if (sqlConnection.State == ConnectionState.Closed)
-                        {
-                            sqlConnection.Open();
-                        }
+                    DataSet dataSet = new DataSet();
+                    sqlDataAdapter.Fill(dataSet);
 
-                        sqlDataAdapter.Fill(dataSet);
-
-                        if (dataSet.Tables[0].Rows.Count != 0)
-                        {
-                            Participant participant = new Participant(dataSet.Tables[0].Rows[0]["Participant_Id"].ToString(), login, password);
-                            PanelWindow mainWindow = new PanelWindow(participant);
-                            mainWindow.Show();
-                            this.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Bad user name or password");
-                            PasswordTextBox.Clear();
-                        }
+                    if (dataSet.Tables[0].Rows.Count != 0)
+                    {
+                        return Convert.ToInt32(dataSet.Tables[0].Rows[0]["Participant_Id"].ToString());
+                    }
+                    else
+                    {
+                        return 0;
                     }
                 }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-                PasswordTextBox.Clear();
             }
         }
 
