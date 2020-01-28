@@ -18,7 +18,7 @@
                   CanUserResizeColumns="False" 
                   CanUserResizeRows="False"
                   SelectionUnit="Cell"
-                  SelectionMode="Extended" Loaded="PlannerDataGrid_Loaded">
+                  SelectionMode="Extended" Loaded="PlannerDataGrid_Loaded" FontSize="48" Foreground="Pink">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding ParameterName}" Width="100"  Header="Parameter Name" IsReadOnly="True"/>
                 </DataGrid.Columns>

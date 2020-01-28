@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +24,6 @@ namespace MyCalendar
     /// </summary>
     public partial class PanelWindow : Window
     {
-        ObservableCollection<string> Planners = new ObservableCollection<string>();
         public Participant Participant { get; }
         public PanelWindow(Participant participant)
         {
@@ -38,9 +40,53 @@ namespace MyCalendar
 
         private void AdjustPlannersListBox()
         {
-            Planners.Add("Sample");
-            Planners.Add("PlannerName");
-            PlannersListBox.ItemsSource = Planners;
+            PlannersListBox.ItemsSource = GetPlannersNames();
+        }
+
+        private List<string> GetPlannersNames()
+        {
+            return GetPlannersNames(GetPlannersNames(Participant.Participant_Id));
+        }
+
+        private DataSet GetPlannersNames(int id)
+        {
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_Planner_NameGet";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", id));
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                    if (sqlConnection.State == ConnectionState.Closed)
+                    {
+                        sqlConnection.Open();
+                    }
+
+                    DataSet dataSet = new DataSet();
+                    sqlDataAdapter.Fill(dataSet);
+
+                    return dataSet;
+                }
+            }
+        }
+
+        private List<string> GetPlannersNames(DataSet dataSet)
+        {
+            List<string> PlannersNames = new List<string>();
+            for (int i = 0; i < dataSet.Tables.Count; i++)
+            {
+                DataTable dataTable = dataSet.Tables[i];
+                foreach (DataRow item in dataTable.Rows)
+                {
+                    PlannersNames.Add(item["Planner_Name"].ToString());
+                }
+            }
+            return PlannersNames;
         }
 
         private void AdjustParticipantLabel()
@@ -55,8 +101,10 @@ namespace MyCalendar
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
         {
-            //tworzenie planu
-            Planners.Add(CreatePlannerTextBox.Text);
+            //stworzenie plannera
+            //dodanie go do bazy danych
+            //zapytanie do bazy danych o aktualny stan Plannerów
+            //wyświetlenie ich w PlannersList
             CreatePlannerTextBox.Clear();
 
             NewPlanner newPlanner = new NewPlanner();

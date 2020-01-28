@@ -1,43 +1,23 @@
-﻿<Window x:Class="MyCalendar.Planner"
+﻿<Window x:Class="MyCalendar.NewPlanner"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyCalendar"
         mc:Ignorable="d"
-        Title="Planner" Height="450" Width="800">
-    <Grid Background="#747474">
-        <StackPanel>
-            <WrapPanel HorizontalAlignment="Right">
-                <TextBox x:Name="ColorToAdd" Width="100"></TextBox>
-                <Button Click="Button_Click" Width="100">Add color</Button>
-            </WrapPanel>
-            <ListBox x:Name="ColorList" SelectionMode="Multiple" SelectionChanged="ColorList_SelectionChanged">
-            </ListBox>
-            <Button Width="100" HorizontalAlignment="Right" Click="Button_Click_1">Remove selected color</Button>
-            <DataGrid x:Name="PlannerDataGrid" Margin="20" 
-                      CanUserSortColumns="False" 
-                      CanUserResizeColumns="False" 
-                      CanUserReorderColumns="False" 
-                      CanUserResizeRows="False"
-                      SelectionMode="Extended"
-                      SelectionUnit="Cell"
-                      ColumnWidth="*">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Poniedziałek" Binding="{Binding Path=Monday}">
-                        <DataGridTextColumn.CellStyle>
-                            <Style TargetType="DataGridCell">
-                                <Setter Property="Background" Value="Red"/>
-                            </Style>
-                        </DataGridTextColumn.CellStyle>
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="FontStyle" Value="Italic"/>
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+        Title="NewPlanner" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="PlannerDataGrid" 
+                AutoGenerateColumns="True"
+                ColumnWidth="*"
+                HeadersVisibility="Column"
+                CanUserSortColumns="False" 
+                CanUserReorderColumns="False" 
+                CanUserResizeColumns="False" 
+                CanUserResizeRows="False"
+                CanUserAddRows="False"
+                SelectionUnit="Cell"
+                SelectionMode="Extended">
+        </DataGrid>
     </Grid>
 </Window>

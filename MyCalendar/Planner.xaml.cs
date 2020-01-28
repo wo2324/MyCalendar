@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,49 +16,57 @@ using System.Windows.Shapes;
 namespace MyCalendar
 {
     /// <summary>
-    /// Interaction logic for Planner.xaml
+    /// Interaction logic for NewPlanner.xaml
     /// </summary>
-    public partial class Planner : Window
+    public partial class NewPlanner : Window
     {
-        ObservableCollection<string> Colors = new ObservableCollection<string>();
-        ObservableCollection<PlannerElement> ColorsGrid = new ObservableCollection<PlannerElement>();
-        public Planner()
+        public NewPlanner()
         {
             InitializeComponent();
-
-            Colors.Add("pink");
-            Colors.Add("orange");
-            Colors.Add("green");
-            Colors.Add("black1");
-
-            ColorList.ItemsSource = Colors;
-
-            //ColorsGrid.Add(new PlannerElement(1, 21, 2));
-            //ColorsGrid.Add(new PlannerElement(234, 34253, 0));
-            //ColorsGrid.Add(new PlannerElement(153, 1, 4536));
-            //ColorsGrid.Add(new PlannerElement(0,2351, 124));
-
-            PlannerDataGrid.ItemsSource = ColorsGrid;
+            CreateNewWindow();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CreateNewWindow()
         {
-            Colors.Add(ColorToAdd.Text);
-            //ColorList.Items.Add();
-        }
+            DataTable dataTable = new DataTable("NewWindow");
+            dataTable.Columns.Add("Time", typeof(string));
+            dataTable.Columns.Add("Monday", typeof(string));
+            dataTable.Columns.Add("Tuesday", typeof(string));
+            dataTable.Columns.Add("Wedneday", typeof(string));
+            dataTable.Columns.Add("Thursday", typeof(string));
+            dataTable.Columns.Add("Friday", typeof(string));
+            dataTable.Columns.Add("Saturday", typeof(string));
+            dataTable.Columns.Add("Sunday", typeof(string));
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            int selectedColorListIndex = ColorList.SelectedIndex;
-            if (selectedColorListIndex != -1)
+            string time;
+            int hour;
+            int minute;
+
+            int startHour = 5;
+            int startMinute = 0;
+
+            int timeRange;
+
+            hour = startHour;
+            minute = startMinute;
+            timeRange = 30;
+            while (hour <= 23)
             {
-                Colors.RemoveAt(selectedColorListIndex);
-            }
-        }
+                time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
+                if (minute < 60 - timeRange)
+                {
+                    minute += timeRange;
+                }
+                else
+                {
+                    hour++;
+                    minute = 0;
+                }
 
-        private void ColorList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ColorList.SelectedIndex.ToString();
+                dataTable.Rows.Add(time, "test", null, null, null, null, null, null);
+            }
+
+            PlannerDataGrid.ItemsSource = dataTable.DefaultView;
         }
     }
 }

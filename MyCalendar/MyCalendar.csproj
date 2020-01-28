@@ -59,8 +59,8 @@
     <Compile Include="AccountWindow.xaml.cs">
       <DependentUpon>AccountWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewPlanner.xaml.cs">
-      <DependentUpon>NewPlanner.xaml</DependentUpon>
+    <Compile Include="Planner.xaml.cs">
+      <DependentUpon>Planner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Participant.cs" />
     <Compile Include="RegistrationWindow.xaml.cs">
@@ -71,8 +71,8 @@
     </Compile>
     <Compile Include="Test\Person.cs" />
     <Compile Include="PlannerElement.cs" />
-    <Compile Include="Planner.xaml.cs">
-      <DependentUpon>Planner.xaml</DependentUpon>
+    <Compile Include="PlannerTest.xaml.cs">
+      <DependentUpon>PlannerTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Test\Planner2.xaml.cs">
       <DependentUpon>Planner2.xaml</DependentUpon>
@@ -83,11 +83,14 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
     <Page Include="AccountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewPlanner.xaml">
+    <Page Include="Planner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,7 +114,7 @@
       <DependentUpon>PanelWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Planner.xaml">
+    <Page Include="PlannerTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
