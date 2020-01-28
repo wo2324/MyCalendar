@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyCalendar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PanelWindow" 
+        Height="450" 
+        Width="800"
+        ResizeMode="NoResize">
     <Grid Background="#747474">
         <DockPanel Margin="20" LastChildFill="False">
             <Border DockPanel.Dock="Left" Width="200" Margin="10" Background="#50514F" CornerRadius="10">

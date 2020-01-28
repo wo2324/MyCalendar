@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyCalendar"
         mc:Ignorable="d"
-        Title="CreateAccount" Height="450" Width="800">
+        Title="RegistrationWindow" 
+        Height="450" 
+        Width="800"
+        ResizeMode="NoResize">
     <Grid Background="#747474">
         <Border Height="260" Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#50514F" CornerRadius="10">
             <StackPanel Margin="20">

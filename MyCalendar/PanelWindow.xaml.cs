@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace MyCalendar
     /// </summary>
     public partial class PanelWindow : Window
     {
+        ObservableCollection<string> Planners = new ObservableCollection<string>();
         public Participant Participant { get; }
         public PanelWindow(Participant participant)
         {
@@ -36,7 +38,9 @@ namespace MyCalendar
 
         private void AdjustPlannersListBox()
         {
-
+            Planners.Add("Sample");
+            Planners.Add("PlannerName");
+            PlannersListBox.ItemsSource = Planners;
         }
 
         private void AdjustParticipantLabel()
@@ -51,6 +55,10 @@ namespace MyCalendar
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
         {
+            //tworzenie planu
+            Planners.Add(CreatePlannerTextBox.Text);
+            CreatePlannerTextBox.Clear();
+
             NewPlanner newPlanner = new NewPlanner();
             newPlanner.Show();
         }
