@@ -107,7 +107,7 @@ namespace MyCalendar
             //wyświetlenie ich w PlannersList
             CreatePlannerTextBox.Clear();
 
-            NewPlanner newPlanner = new NewPlanner();
+            Planner newPlanner = new Planner();
             newPlanner.Show();
         }
 

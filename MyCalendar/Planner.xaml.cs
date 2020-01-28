@@ -18,9 +18,9 @@ namespace MyCalendar
     /// <summary>
     /// Interaction logic for NewPlanner.xaml
     /// </summary>
-    public partial class NewPlanner : Window
+    public partial class Planner : Window
     {
-        public NewPlanner()
+        public Planner()
         {
             InitializeComponent();
             CreateNewWindow();

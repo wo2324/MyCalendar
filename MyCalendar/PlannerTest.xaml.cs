@@ -18,11 +18,11 @@ namespace MyCalendar
     /// <summary>
     /// Interaction logic for Planner.xaml
     /// </summary>
-    public partial class Planner : Window
+    public partial class PlannerTest : Window
     {
         ObservableCollection<string> Colors = new ObservableCollection<string>();
         ObservableCollection<PlannerElement> ColorsGrid = new ObservableCollection<PlannerElement>();
-        public Planner()
+        public PlannerTest()
         {
             InitializeComponent();
 
