@@ -25,6 +25,35 @@ namespace MyCalendar
         {
             this.Participant = participant;
             InitializeComponent();
+            AdjustControls();
+        }
+
+        private void AdjustControls()
+        {
+            AdjustPlannersListBox();
+            AdjustParticipantLabel();
+        }
+
+        private void AdjustPlannersListBox()
+        {
+
+        }
+
+        private void AdjustParticipantLabel()
+        {
+            ParticipantLabel.Content = this.Participant.Participant_Name;
+        }
+
+        private void PlannersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show(PlannersListBox.SelectedIndex.ToString());
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

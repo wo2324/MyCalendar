@@ -41,14 +41,16 @@ namespace MyCalendar
                     try
                     {
                         CreateAccount(login, password);
-                        MessageBox.Show("Account {0} has been created", login);
+                        string messageTextBox = $"Account {login} has been created";
+                        MessageBox.Show(messageTextBox);
                         LoginWindow loginWindow = new LoginWindow();
                         loginWindow.Login(login, password);
                         this.Close();
                     }
                     catch (SqlException sqlException) when (sqlException.Number == 2627)
                     {
-                        MessageBox.Show("Account {0} already exists", login);
+                        string messageTextBox = $"Account {login} already exists";
+                        MessageBox.Show(messageTextBox);
                         PasswordBoxesClear();
                     }
                     catch (Exception exception)

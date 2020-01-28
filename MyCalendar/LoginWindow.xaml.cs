@@ -34,7 +34,7 @@ namespace MyCalendar
 
         public void Login(string login, string password)
         {
-            if (login.Length != 0 && PasswordBox.Password.Length != 0)
+            if (login.Length != 0 && password.Length != 0)
             {
                 try
                 {
