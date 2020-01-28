@@ -59,8 +59,6 @@
     <Compile Include="AccountWindow.xaml.cs">
       <DependentUpon>AccountWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ColorConverter.cs" />
-    <Compile Include="NameToBrushConverter.cs" />
     <Compile Include="NewPlanner.xaml.cs">
       <DependentUpon>NewPlanner.xaml</DependentUpon>
     </Compile>
