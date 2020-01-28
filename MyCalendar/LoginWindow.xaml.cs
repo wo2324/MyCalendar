@@ -29,12 +29,10 @@ namespace MyCalendar
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string login = LoginTextBox.Text;
-            string password = PasswordBox.Password;
-            Login(login, password);
+            Login(LoginTextBox.Text, PasswordBox.Password);
         }
 
-        private void Login(string login, string password)
+        public void Login(string login, string password)
         {
             if (login.Length != 0 && PasswordBox.Password.Length != 0)
             {
@@ -66,7 +64,7 @@ namespace MyCalendar
             }
         }
 
-        int ParticipantIdGet(string login, string password)
+        private int ParticipantIdGet(string login, string password)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
