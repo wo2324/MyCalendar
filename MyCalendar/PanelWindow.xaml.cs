@@ -107,8 +107,51 @@ namespace MyCalendar
             //wyświetlenie ich w PlannersList
             CreatePlannerTextBox.Clear();
 
-            Planner newPlanner = new Planner();
+            //Definicja DataTable
+            Planner newPlanner = new Planner(CreateContent(CreatePlannerTextBox.Text)); //zasilenie DataTable
             newPlanner.Show();
+        }
+
+        DataTable CreateContent(string planner)
+        {
+            DataTable content = new DataTable(planner);
+            content.Columns.Add("Time", typeof(string));
+            content.Columns.Add("Monday", typeof(string));
+            content.Columns.Add("Tuesday", typeof(string));
+            content.Columns.Add("Wedneday", typeof(string));
+            content.Columns.Add("Thursday", typeof(string));
+            content.Columns.Add("Friday", typeof(string));
+            content.Columns.Add("Saturday", typeof(string));
+            content.Columns.Add("Sunday", typeof(string));
+
+            string time;
+            int hour;
+            int minute;
+
+            int startHour = 5;
+            int startMinute = 0;
+
+            int timeRange;
+
+            hour = startHour;
+            minute = startMinute;
+            timeRange = 30;
+            while (hour <= 23)
+            {
+                time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
+                if (minute < 60 - timeRange)
+                {
+                    minute += timeRange;
+                }
+                else
+                {
+                    hour++;
+                    minute = 0;
+                }
+
+                content.Rows.Add(time, null, null, null, null, null, null, null);
+            }
+            return content;
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
