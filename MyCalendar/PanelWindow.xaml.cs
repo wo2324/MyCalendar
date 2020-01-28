@@ -67,7 +67,18 @@ namespace MyCalendar
         {
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.Show();
-            this.Close();
+            CloseWindows();
+        }
+
+        private void CloseWindows()
+        {
+            foreach (Window item in Application.Current.Windows)
+            {
+                if (item.Title == "NewPlanner" || item.Title == "PanelWindow")
+                {
+                    item.Close();
+                }
+            }
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
