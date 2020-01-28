@@ -49,17 +49,23 @@ namespace MyCalendar
             MessageBox.Show(PlannersListBox.SelectedIndex.ToString());
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewPlanner newPlanner = new NewPlanner();
+            newPlanner.Show();
+        }
+
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.Show();
             this.Close();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             AccountWindow accountWindow = new AccountWindow(this.Participant);
-            accountWindow.Show();
+            accountWindow.ShowDialog();
         }
     }
 }

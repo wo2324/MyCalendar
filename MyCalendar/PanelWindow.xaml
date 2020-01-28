@@ -21,8 +21,8 @@
                     <Label HorizontalAlignment="Left" Content="Create new planner" FontSize="16" Foreground="#D4D4D4D4"/>
                     <Separator Foreground="#E9E9E9E9"></Separator>
                     <Label HorizontalAlignment="Left" Content="Planner name" FontSize="12" Foreground="#D4D4D4D4"/>
-                    <TextBox x:Name="LoginTextBox" Foreground="#1B1B1B" Background="#E9E9E9E9"/>
-                    <Button x:Name="RegisterButton" Margin="0,10,0,0" HorizontalAlignment="Right" Content="Create" Background="#D4D4D4D4"/>
+                    <TextBox x:Name="CreatePlannerTextBox" Foreground="#1B1B1B" Background="#E9E9E9E9"/>
+                    <Button x:Name="CreatePlannerButton" Margin="0,10,0,0" HorizontalAlignment="Right" Content="Create" Background="#D4D4D4D4" Click="CreatePlannerButton_Click"/>
                 </StackPanel>
             </Border>
             <Border DockPanel.Dock="Right" Width="200" Margin="10" VerticalAlignment="Top" Background="#50514F" CornerRadius="10">
@@ -30,8 +30,8 @@
                     <Label HorizontalAlignment="Left" Content="Account" FontSize="16" Foreground="#D4D4D4D4"/>
                     <Separator Foreground="#E9E9E9E9"></Separator>
                     <Label x:Name="ParticipantLabel" HorizontalAlignment="Right" Padding="2, 5, 2, 1" FontSize="12" Foreground="#D4D4D4D4" ScrollViewer.CanContentScroll="True"/>
-                    <Button HorizontalAlignment="Right" Padding="2, 1, 2, 2" Content="Log out" FontSize="12" Foreground="#D4D4D4D4" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Button_Click_1" />
-                    <Button Margin="0,10,0,0" HorizontalAlignment="Left" Content="Change settings" Background="#D4D4D4D4" Click="Button_Click"/>
+                    <Button x:Name="LogOutButton" HorizontalAlignment="Right" Padding="2, 1, 2, 2" Content="Log out" FontSize="12" Foreground="#D4D4D4D4" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="LogOutButton_Click"/>
+                    <Button x:Name="SettingsButton" Margin="0,10,0,0" HorizontalAlignment="Left" Content="Change settings" Background="#D4D4D4D4" Click="SettingsButton_Click"/>
                 </StackPanel>
             </Border>
         </DockPanel>
