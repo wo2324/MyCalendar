@@ -37,8 +37,8 @@ namespace MyCalendar
                 {
                     password = PasswordTextBox.Password;
                     CreateAccount(login, password);
-                    PanelWindow mainWindow = new PanelWindow();
-                    mainWindow.Show();
+                    //PanelWindow mainWindow = new PanelWindow();
+                    //mainWindow.Show();
                     this.Close();
                 }
                 else

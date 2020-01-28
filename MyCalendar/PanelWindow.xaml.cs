@@ -20,7 +20,7 @@ namespace MyCalendar
     /// </summary>
     public partial class PanelWindow : Window
     {
-        public PanelWindow()
+        public PanelWindow(Participant participant)
         {
             InitializeComponent();
         }

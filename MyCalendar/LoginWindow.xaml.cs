@@ -69,7 +69,8 @@ namespace MyCalendar
 
                         if (dataSet.Tables[0].Rows.Count != 0)
                         {
-                            PanelWindow mainWindow = new PanelWindow();
+                            Participant participant = new Participant(dataSet.Tables[0].Rows[0]["Participant_Id"].ToString(), login, password);
+                            PanelWindow mainWindow = new PanelWindow(participant);
                             mainWindow.Show();
                             this.Close();
                         }
