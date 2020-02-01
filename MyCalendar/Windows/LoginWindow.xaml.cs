@@ -38,7 +38,7 @@ namespace MyCalendar
             {
                 try
                 {
-                    int id = ParticipantIdGet(login, password);
+                    int id = Utils.DbHandler.ParticipantIdGet(login, password);
                     if (id != 0)
                     {
                         PanelWindow mainWindow = new PanelWindow(new Participant(id, login, password));
@@ -61,41 +61,6 @@ namespace MyCalendar
             {
                 MessageBox.Show("All fields must be filled");
                 PasswordBox.Clear();
-            }
-        }
-
-        private int ParticipantIdGet(string login, string password)
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_ParticipantGet";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", login));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Password", password));
-                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-
-                    if (sqlConnection.State == ConnectionState.Closed)
-                    {
-                        sqlConnection.Open();
-                    }
-
-                    DataSet dataSet = new DataSet();
-                    sqlDataAdapter.Fill(dataSet);
-
-                    if (dataSet.Tables[0].Rows.Count != 0)
-                    {
-                        return Convert.ToInt32(dataSet.Tables[0].Rows[0]["Participant_Id"].ToString());
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
             }
         }
 

@@ -34,59 +34,31 @@ namespace MyCalendar
 
         private void AdjustControls()
         {
-            AdjustPlannersListBox();    //jak nie ma żadnego plannera to sposób wyświetlania
+            AdjustPlannerListBox();    
             AdjustParticipantLabel();
         }
 
-        private void AdjustPlannersListBox()
+        private void AdjustPlannerListBox()
         {
-            PlannersListBox.ItemsSource = GetPlannersNames();
+            PlannersListBox.ItemsSource = GetPlannerName(Utils.DbHandler.GetPlannerName(Participant.Participant_Id));
         }
 
-        private List<string> GetPlannersNames()
+        private List<string> GetPlannerName(DataSet dataSet)
         {
-            return GetPlannersNames(GetPlannersNames(Participant.Participant_Id));
-        }
-
-        private DataSet GetPlannersNames(int participantId)
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            List<string> PlannerName = new List<string>();
+            if (dataSet.Tables.Count == 0)
             {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_Planner_NameGet";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", participantId));
-                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-
-                    if (sqlConnection.State == ConnectionState.Closed)
-                    {
-                        sqlConnection.Open();
-                    }
-
-                    DataSet dataSet = new DataSet();
-                    sqlDataAdapter.Fill(dataSet);
-
-                    return dataSet;
-                }
+                //jak nie ma żadnego plannera to sposób wyświetlania
             }
-        }
-
-        private List<string> GetPlannersNames(DataSet dataSet)
-        {
-            List<string> PlannersNames = new List<string>();
-            for (int i = 0; i < dataSet.Tables.Count; i++)
+            else if (dataSet.Tables.Count == 1)
             {
-                DataTable dataTable = dataSet.Tables[i];
+                DataTable dataTable = dataSet.Tables[0];
                 foreach (DataRow item in dataTable.Rows)
                 {
-                    PlannersNames.Add(item["Planner_Name"].ToString());
+                    PlannerName.Add(item["Planner_Name"].ToString());
                 }
             }
-            return PlannersNames;
+            return PlannerName;
         }
 
         private void AdjustParticipantLabel()
@@ -96,46 +68,27 @@ namespace MyCalendar
 
         private void PlannersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string plannerName = PlannersListBox.SelectedItem.ToString();
-            Planner planner = new Planner(GetContent(plannerName));
+            Planner planner = new Planner(GetContent(PlannersListBox.SelectedItem.ToString()));
             planner.Show();
         }
 
-        private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
+        private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)//obsługa plannerDescription
         {
-            CreatePlanner(); //obsługa plannerDescription
+            CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id); 
             Planner planner = new Planner(GetContent(CreatePlannerTextBox.Text));
             planner.Show();
-            AdjustPlannersListBox();
+            AdjustPlannerListBox();
             CreatePlannerTextBox.Clear();
         }
 
-        private void CreatePlanner()
+        private void CreatePlanner(string plannerName, string plannerDescription, int participantId)
         {
-            CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id);
-            InitializeContent(CreatePlannerTextBox.Text);
+            Utils.DbHandler.CreatePlanner(plannerName, plannerDescription, participantId);
+            InitializeTask(plannerName);
         }
 
-        private void CreatePlanner(string plannerName, string plannerDescription, int participantId)    //walidacja
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_PlannerAdd";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", plannerName));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Description", plannerDescription));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Participant_Id", participantId));
-                    sqlCommand.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private void InitializeContent(string plannerName)
+        #region toWork
+        private void InitializeTask(string plannerName)
         {
             DataTable content = new DataTable(plannerName);
             content.Columns.Add("tvp_Task_Name", typeof(string));
@@ -198,36 +151,10 @@ namespace MyCalendar
 
         private DataTable GetContent(string plannerName)
         {
-            return AdjustContent(GetContent(plannerName, Participant.Participant_Id));
+            return AdjustContent(Utils.DbHandler.GetTask(plannerName, Participant.Participant_Id));
         }
 
-        private DataSet GetContent(string plannerName, int participantId)
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_TaskGet";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", plannerName));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Participant_Id", participantId));
-                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
-                    if (sqlConnection.State == ConnectionState.Closed)
-                    {
-                        sqlConnection.Open();
-                    }
-
-                    DataSet dataSet = new DataSet();
-                    sqlDataAdapter.Fill(dataSet);
-
-                    return dataSet;
-                }
-            }
-        }
 
         private DataTable AdjustContent(DataSet dataSet)
         {
@@ -263,7 +190,7 @@ namespace MyCalendar
                     where myRow.Field<string>("Task_Time") == time
                     select myRow;
 
-                TaskToPlanner taskToPlanner = new TaskToPlanner();
+                TaskConverter taskToPlanner = new TaskConverter();
 
                 List<Task> taskRestult = new List<Task>();
                 foreach (var item in results)
@@ -271,36 +198,36 @@ namespace MyCalendar
 
                     if (item["Task_Day"].ToString() == "Monday")
                     {
-                        taskToPlanner.MondayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.MondayTask = item["Task_Name"].ToString();
                     }
                     else if (item["Task_Day"].ToString() == "Tuesday")
                     {
-                        taskToPlanner.TuesdayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.TuesdayTask = item["Task_Name"].ToString();
                     }
                     else if (item["Task_Day"].ToString() == "Wednesday")
                     {
-                        taskToPlanner.WednesdayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.WednesdayTask = item["Task_Name"].ToString();
                     }
                     else if (item["Task_Day"].ToString() == "Thursday")
                     {
-                        taskToPlanner.ThursdayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.ThursdayTask = item["Task_Name"].ToString();
                     }
                     else if (item["Task_Day"].ToString() == "Friday")
                     {
-                        taskToPlanner.FridayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.FridayTask = item["Task_Name"].ToString();
                     }
                     else if (item["Task_Day"].ToString() == "Saturday")
                     {
-                        taskToPlanner.SaturdayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.SaturdayTask = item["Task_Name"].ToString();
                     }
                     else if (item["Task_Day"].ToString() == "Sunday")
                     {
-                        taskToPlanner.SundayTaskName = item["Task_Name"].ToString();
+                        taskToPlanner.SundayTask = item["Task_Name"].ToString();
                     }
                 }
 
-                result.Rows.Add(taskToPlanner.MondayTaskName, taskToPlanner.TuesdayTaskName, taskToPlanner.WednesdayTaskName, taskToPlanner.ThursdayTaskName
-                        , taskToPlanner.FridayTaskName, taskToPlanner.SaturdayTaskName, taskToPlanner.SundayTaskName);
+                result.Rows.Add(taskToPlanner.MondayTask, taskToPlanner.TuesdayTask, taskToPlanner.WednesdayTask, taskToPlanner.ThursdayTask
+                        , taskToPlanner.FridayTask, taskToPlanner.SaturdayTask, taskToPlanner.SundayTask);
 
                 if (minute < 60 - timeRange)
                 {
@@ -315,6 +242,8 @@ namespace MyCalendar
 
             return result;
         }
+        #endregion
+
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -327,7 +256,7 @@ namespace MyCalendar
         {
             foreach (Window item in Application.Current.Windows)
             {
-                if (item.Title == "Planner" || item.Title == "PanelWindow")
+                if (item.Title == "PlannerWindow" || item.Title == "PanelWindow")
                 {
                     item.Close();
                 }

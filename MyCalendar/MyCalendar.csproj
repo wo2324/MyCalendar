@@ -56,48 +56,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AccountWindow.xaml.cs">
-      <DependentUpon>AccountWindow.xaml</DependentUpon>
+    <Compile Include="Windows\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Planner.xaml.cs">
-      <DependentUpon>Planner.xaml</DependentUpon>
+    <Compile Include="Windows\PlannerWindow.xaml.cs">
+      <DependentUpon>PlannerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Participant.cs" />
-    <Compile Include="RegistrationWindow.xaml.cs">
+    <Compile Include="Utils\Participant.cs" />
+    <Compile Include="Windows\RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreatePlanner.xaml.cs">
-      <DependentUpon>CreatePlanner.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Task.cs" />
-    <Compile Include="TaskToPlanner.cs" />
-    <Compile Include="PlannerElement.cs" />
-    <Compile Include="PlannerTest.xaml.cs">
-      <DependentUpon>PlannerTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Planner3.xaml.cs">
+    <Compile Include="Utils\TaskConverter.cs" />
+    <Compile Include="test\Planner3.xaml.cs">
       <DependentUpon>Planner3.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="AccountWindow.xaml">
+    <Compile Include="Utils\DbHandler.cs" />
+    <Page Include="Windows\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Planner.xaml">
+    <Page Include="Windows\PlannerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrationWindow.xaml">
+    <Page Include="Windows\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreatePlanner.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PanelWindow.xaml">
+    <Page Include="Windows\PanelWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -105,19 +94,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PanelWindow.xaml.cs">
+    <Compile Include="Windows\PanelWindow.xaml.cs">
       <DependentUpon>PanelWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PlannerTest.xaml">
+    <Page Include="test\Planner3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Planner3.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,5 +133,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

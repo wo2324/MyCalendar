@@ -46,60 +46,42 @@ namespace MyCalendar
                         {
                             try
                             {
-                                EditPassword(this.Participant.Participant_Id, newPassword);
+                                Utils.DbHandler.EditPassword(this.Participant.Participant_Id, newPassword);
                                 MessageBox.Show("Password has been edit");
                                 this.Close();
                             }
                             catch (Exception exception)
                             {
                                 MessageBox.Show(exception.Message);
-                                PasswordBoxesClear();
+                                PasswordBoxClear();
                             }
                         }
                         else
                         {
                             MessageBox.Show("The new password must be different from the current one");
-                            PasswordBoxesClear();
+                            PasswordBoxClear();
                         }
                     }
                     else
                     {
                         MessageBox.Show("Given new passwords are non-identical");
-                        PasswordBoxesClear();
+                        PasswordBoxClear();
                     }
                 }
                 else
                 {
                     MessageBox.Show("Bad password");
-                    PasswordBoxesClear();
+                    PasswordBoxClear();
                 }
             }
             else
             {
                 MessageBox.Show("All fields must be filled");
-                PasswordBoxesClear();
+                PasswordBoxClear();
             }
         }
 
-        private void EditPassword(int Participant_Id, string newPassword)
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_PasswordEdit";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", Participant_Id));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_NewPassword", newPassword));
-                    sqlCommand.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private void PasswordBoxesClear()
+        private void PasswordBoxClear()
         {
             PasswordBox.Clear();
             NewPasswordBox.Clear();

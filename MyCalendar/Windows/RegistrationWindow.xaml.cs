@@ -40,9 +40,8 @@ namespace MyCalendar
                 {
                     try
                     {
-                        CreateAccount(login, password);
-                        string messageTextBox = $"Account {login} has been created";
-                        MessageBox.Show(messageTextBox);
+                        Utils.DbHandler.CreateAccount(login, password);
+                        MessageBox.Show($"Account {login} has been created");
                         LoginWindow loginWindow = new LoginWindow();
                         loginWindow.Login(login, password);
                         this.Close();
@@ -51,46 +50,28 @@ namespace MyCalendar
                     {
                         string messageTextBox = $"Account {login} already exists";
                         MessageBox.Show(messageTextBox);
-                        PasswordBoxesClear();
+                        PasswordBoxeClear();
                     }
                     catch (Exception exception)
                     {
                         MessageBox.Show(exception.Message);
-                        PasswordBoxesClear();
+                        PasswordBoxeClear();
                     }
                 }
                 else
                 {
                     MessageBox.Show("Given passwords are non-identical");
-                    PasswordBoxesClear();
+                    PasswordBoxeClear();
                 }
             }
             else
             {
                 MessageBox.Show("All fields must be filled");
-                PasswordBoxesClear();
+                PasswordBoxeClear();
             }
         }
 
-        private void CreateAccount(string login, string password)
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
-                {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_ParticipantAdd";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", login));
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Password", password));
-                    sqlCommand.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private void PasswordBoxesClear()
+        private void PasswordBoxeClear()
         {
             PasswordBox.Clear();
             PasswordBox_1.Clear();
