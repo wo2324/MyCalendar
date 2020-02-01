@@ -96,14 +96,16 @@ namespace MyCalendar
 
         private void PlannersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show(PlannersListBox.SelectedIndex.ToString());
+            string plannerName = PlannersListBox.SelectedItem.ToString();
+            Planner planner = new Planner(GetContent(plannerName));
+            planner.Show();
         }
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
         {
             CreatePlanner(); //obsługa plannerDescription
-            //Planner planner = new Planner(GetContent());
-            //planner.Show();
+            Planner planner = new Planner(GetContent(CreatePlannerTextBox.Text));
+            planner.Show();
             AdjustPlannersListBox();
             CreatePlannerTextBox.Clear();
         }
@@ -194,12 +196,12 @@ namespace MyCalendar
             }
         }
 
-        private DataTable GetContent()
+        private DataTable GetContent(string plannerName)
         {
-            return AdjustContent(GetContent(CreatePlannerTextBox.Text));
+            return AdjustContent(GetContent(plannerName, Participant.Participant_Id));
         }
 
-        private DataSet GetContent(string plannerName)
+        private DataSet GetContent(string plannerName, int participantId)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -209,8 +211,9 @@ namespace MyCalendar
                 {
                     sqlCommand.Connection = sqlConnection;
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "mc.usp_Planner_NameGet";
-                    //sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", participantId));
+                    sqlCommand.CommandText = "mc.usp_TaskGet";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", plannerName));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Participant_Id", participantId));
                     SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
                     if (sqlConnection.State == ConnectionState.Closed)
@@ -228,7 +231,7 @@ namespace MyCalendar
 
         private DataTable AdjustContent(DataSet dataSet)
         {
-            DataTable dataTable = new DataTable();
+            DataTable dataTable = dataSet.Tables[0];
             return dataTable;
         }
 
