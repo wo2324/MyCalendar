@@ -231,52 +231,90 @@ namespace MyCalendar
 
         private DataTable AdjustContent(DataSet dataSet)
         {
-            DataTable dataTable = dataSet.Tables[0];
-            return dataTable;
+            DataTable result = new DataTable("Result");
+            result.Columns.Add("Monday", typeof(string));
+            result.Columns.Add("Tuesday", typeof(string));
+            result.Columns.Add("Wedneday", typeof(string));
+            result.Columns.Add("Thursday", typeof(string));
+            result.Columns.Add("Friday", typeof(string));
+            result.Columns.Add("Saturday", typeof(string));
+            result.Columns.Add("Sunday", typeof(string));
+
+            DayOfWeek dayOfWeek = (DayOfWeek)0;
+            string time;
+            int hour;
+            int minute;
+
+            int startHour = 5;
+            int startMinute = 0;
+
+            int timeRange;
+
+            hour = startHour;
+            minute = startMinute;
+            timeRange = 30;
+
+            while (hour <= 23)
+            {
+                time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
+                DataTable dataTable = dataSet.Tables[0];
+                var results =
+                    from myRow in dataTable.AsEnumerable()
+                    where myRow.Field<string>("Task_Time") == time
+                    select myRow;
+
+                TaskToPlanner taskToPlanner = new TaskToPlanner();
+
+                List<Task> taskRestult = new List<Task>();
+                foreach (var item in results)
+                {
+
+                    if (item["Task_Day"].ToString() == "Monday")
+                    {
+                        taskToPlanner.MondayTaskName = item["Task_Name"].ToString();
+                    }
+                    else if (item["Task_Day"].ToString() == "Tuesday")
+                    {
+                        taskToPlanner.TuesdayTaskName = item["Task_Name"].ToString();
+                    }
+                    else if (item["Task_Day"].ToString() == "Wednesday")
+                    {
+                        taskToPlanner.WednesdayTaskName = item["Task_Name"].ToString();
+                    }
+                    else if (item["Task_Day"].ToString() == "Thursday")
+                    {
+                        taskToPlanner.ThursdayTaskName = item["Task_Name"].ToString();
+                    }
+                    else if (item["Task_Day"].ToString() == "Friday")
+                    {
+                        taskToPlanner.FridayTaskName = item["Task_Name"].ToString();
+                    }
+                    else if (item["Task_Day"].ToString() == "Saturday")
+                    {
+                        taskToPlanner.SaturdayTaskName = item["Task_Name"].ToString();
+                    }
+                    else if (item["Task_Day"].ToString() == "Sunday")
+                    {
+                        taskToPlanner.SundayTaskName = item["Task_Name"].ToString();
+                    }
+                }
+
+                result.Rows.Add(taskToPlanner.MondayTaskName, taskToPlanner.TuesdayTaskName, taskToPlanner.WednesdayTaskName, taskToPlanner.ThursdayTaskName
+                        , taskToPlanner.FridayTaskName, taskToPlanner.SaturdayTaskName, taskToPlanner.SundayTaskName);
+
+                if (minute < 60 - timeRange)
+                {
+                    minute += timeRange;
+                }
+                else
+                {
+                    hour++;
+                    minute = 0;
+                }
+            }
+
+            return result;
         }
-
-        //DataTable CreateContent(string planner)
-        //{
-        //    DataTable content = new DataTable(planner);
-        //    content.Columns.Add("Monday", typeof(string));
-        //    content.Columns.Add("Tuesday", typeof(string));
-        //    content.Columns.Add("Wedneday", typeof(string));
-        //    content.Columns.Add("Thursday", typeof(string));
-        //    content.Columns.Add("Friday", typeof(string));
-        //    content.Columns.Add("Saturday", typeof(string));
-        //    content.Columns.Add("Sunday", typeof(string));
-
-        //    #region Time counting
-        //    string time;
-        //    int hour;
-        //    int minute;
-
-        //    int startHour = 5;
-        //    int startMinute = 0;
-
-        //    int timeRange;
-
-        //    hour = startHour;
-        //    minute = startMinute;
-        //    timeRange = 30;
-        //    while (hour <= 23)
-        //    {
-        //        time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
-        //        if (minute < 60 - timeRange)
-        //        {
-        //            minute += timeRange;
-        //        }
-        //        else
-        //        {
-        //            hour++;
-        //            minute = 0;
-        //        }
-
-        //        content.Rows.Add(null, null, null, null, null, null, null);
-        //    }
-        //    #endregion
-        //    return content;
-        //}
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
