@@ -71,22 +71,15 @@
     </Compile>
     <Compile Include="Task.cs" />
     <Compile Include="TaskToPlanner.cs" />
-    <Compile Include="Test\Person.cs" />
     <Compile Include="PlannerElement.cs" />
     <Compile Include="PlannerTest.xaml.cs">
       <DependentUpon>PlannerTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Test\Planner2.xaml.cs">
-      <DependentUpon>Planner2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Planner3.xaml.cs">
       <DependentUpon>Planner3.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
     <Page Include="AccountWindow.xaml">
       <SubType>Designer</SubType>
@@ -120,19 +113,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test\Planner2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Planner3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LoginWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
