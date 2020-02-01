@@ -34,7 +34,7 @@ namespace MyCalendar
 
         private void AdjustControls()
         {
-            AdjustPlannersListBox();
+            AdjustPlannersListBox();    //jak nie ma żadnego plannera to sposób wyświetlania
             AdjustParticipantLabel();
         }
 
@@ -166,7 +166,7 @@ namespace MyCalendar
         {
             foreach (Window item in Application.Current.Windows)
             {
-                if (item.Title == "NewPlanner" || item.Title == "PanelWindow")
+                if (item.Title == "Planner" || item.Title == "PanelWindow")
                 {
                     item.Close();
                 }

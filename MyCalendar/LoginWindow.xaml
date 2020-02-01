@@ -12,6 +12,7 @@
     <Grid Background="#747474">
         <Border Height="260" Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#50514F" CornerRadius="10">
             <StackPanel Margin="20">
+                <Button x:Name="ExitButton" HorizontalAlignment="Left" Content="Exit" Background="#D4D4D4D4"/>
                 <Label HorizontalAlignment="Center" Content="Login" FontSize="32" Foreground="#D4D4D4D4"/>
                 <Separator Foreground="#E9E9E9E9"></Separator>
                 <Label HorizontalAlignment="Left" Content="Login" FontSize="12" Foreground="#D4D4D4D4"/>
