@@ -48,7 +48,7 @@ namespace MyCalendar
             return GetPlannersNames(GetPlannersNames(Participant.Participant_Id));
         }
 
-        private DataSet GetPlannersNames(int id)
+        private DataSet GetPlannersNames(int participantId)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -59,7 +59,7 @@ namespace MyCalendar
                     sqlCommand.Connection = sqlConnection;
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.CommandText = "mc.usp_Planner_NameGet";
-                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", id));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", participantId));
                     SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
                     if (sqlConnection.State == ConnectionState.Closed)
@@ -101,15 +101,35 @@ namespace MyCalendar
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
         {
-            //stworzenie plannera
-            //dodanie go do bazy danych
-            //zapytanie do bazy danych o aktualny stan Plannerów
-            //wyświetlenie ich w PlannersList
+            //1. Stwórz planner
+            CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id); //obsługa plannerDescription
+            //2. Odczytaj dane plannera
+            //Planner newPlanner = new Planner(CreateContent(CreatePlannerTextBox.Text));
+            //3. Otwórz planner
+            //newPlanner.Show();
+            //4. Zaktualizuj listę plannerów
+            AdjustPlannersListBox();
+            //5. Wyczyść pola
             CreatePlannerTextBox.Clear();
+        }
 
-            //Definicja DataTable
-            Planner newPlanner = new Planner(CreateContent(CreatePlannerTextBox.Text)); //zasilenie DataTable
-            newPlanner.Show();
+        private void CreatePlanner(string plannerName, string plannerDescription, int participantId)    //walidacja
+        {
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_PlannerAdd";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", plannerName));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Description", plannerDescription));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Participant_Id", participantId));
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
 
         DataTable CreateContent(string planner)
