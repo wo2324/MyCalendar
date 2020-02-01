@@ -101,16 +101,17 @@ namespace MyCalendar
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
         {
-            //1. Stwórz planner
-            CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id); //obsługa plannerDescription
-            //2. Odczytaj dane plannera
-            //Planner newPlanner = new Planner(CreateContent(CreatePlannerTextBox.Text));
-            //3. Otwórz planner
-            //newPlanner.Show();
-            //4. Zaktualizuj listę plannerów
+            CreatePlanner(); //obsługa plannerDescription
+            //Planner planner = new Planner(GetContent());
+            //planner.Show();
             AdjustPlannersListBox();
-            //5. Wyczyść pola
             CreatePlannerTextBox.Clear();
+        }
+
+        private void CreatePlanner()
+        {
+            CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id);
+            InitializeContent(CreatePlannerTextBox.Text);
         }
 
         private void CreatePlanner(string plannerName, string plannerDescription, int participantId)    //walidacja
@@ -132,18 +133,16 @@ namespace MyCalendar
             }
         }
 
-        DataTable CreateContent(string planner)
+        private void InitializeContent(string plannerName)
         {
-            DataTable content = new DataTable(planner);
-            content.Columns.Add("Monday", typeof(string));
-            content.Columns.Add("Tuesday", typeof(string));
-            content.Columns.Add("Wedneday", typeof(string));
-            content.Columns.Add("Thursday", typeof(string));
-            content.Columns.Add("Friday", typeof(string));
-            content.Columns.Add("Saturday", typeof(string));
-            content.Columns.Add("Sunday", typeof(string));
+            DataTable content = new DataTable(plannerName);
+            content.Columns.Add("tvp_Task_Name", typeof(string));
+            content.Columns.Add("tvp_Task_Description", typeof(string));
+            content.Columns.Add("tvp_Task_Day", typeof(string));
+            content.Columns.Add("tvp_Task_Time", typeof(string));
+            content.Columns.Add("tvp_Task_Color", typeof(string));
 
-            #region Time counting
+            DayOfWeek dayOfWeek = (DayOfWeek)0;
             string time;
             int hour;
             int minute;
@@ -156,24 +155,125 @@ namespace MyCalendar
             hour = startHour;
             minute = startMinute;
             timeRange = 30;
-            while (hour <= 23)
-            {
-                time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
-                if (minute < 60 - timeRange)
-                {
-                    minute += timeRange;
-                }
-                else
-                {
-                    hour++;
-                    minute = 0;
-                }
 
-                content.Rows.Add(null, null, null, null, null, null, null);
+            while ((int)dayOfWeek < 7)
+            {
+                while (hour <= 23)
+                {
+                    time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
+                    content.Rows.Add(null, null, dayOfWeek.ToString(), time, null);
+                    if (minute < 60 - timeRange)
+                    {
+                        minute += timeRange;
+                    }
+                    else
+                    {
+                        hour++;
+                        minute = 0;
+                    }
+                }
+                hour = startHour;
+                minute = startMinute;
+                dayOfWeek++;
             }
-            #endregion
-            return content;
+
+            //Wysłanie danych do db
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_TaskAdd";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", plannerName));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_tvp_Task", content));
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
+
+        private DataTable GetContent()
+        {
+            return AdjustContent(GetContent(CreatePlannerTextBox.Text));
+        }
+
+        private DataSet GetContent(string plannerName)
+        {
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_Planner_NameGet";
+                    //sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Id", participantId));
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                    if (sqlConnection.State == ConnectionState.Closed)
+                    {
+                        sqlConnection.Open();
+                    }
+
+                    DataSet dataSet = new DataSet();
+                    sqlDataAdapter.Fill(dataSet);
+
+                    return dataSet;
+                }
+            }
+        }
+
+        private DataTable AdjustContent(DataSet dataSet)
+        {
+            DataTable dataTable = new DataTable();
+            return dataTable;
+        }
+
+        //DataTable CreateContent(string planner)
+        //{
+        //    DataTable content = new DataTable(planner);
+        //    content.Columns.Add("Monday", typeof(string));
+        //    content.Columns.Add("Tuesday", typeof(string));
+        //    content.Columns.Add("Wedneday", typeof(string));
+        //    content.Columns.Add("Thursday", typeof(string));
+        //    content.Columns.Add("Friday", typeof(string));
+        //    content.Columns.Add("Saturday", typeof(string));
+        //    content.Columns.Add("Sunday", typeof(string));
+
+        //    #region Time counting
+        //    string time;
+        //    int hour;
+        //    int minute;
+
+        //    int startHour = 5;
+        //    int startMinute = 0;
+
+        //    int timeRange;
+
+        //    hour = startHour;
+        //    minute = startMinute;
+        //    timeRange = 30;
+        //    while (hour <= 23)
+        //    {
+        //        time = $"{hour.ToString("D2")}:{minute.ToString("D2")}";
+        //        if (minute < 60 - timeRange)
+        //        {
+        //            minute += timeRange;
+        //        }
+        //        else
+        //        {
+        //            hour++;
+        //            minute = 0;
+        //        }
+
+        //        content.Rows.Add(null, null, null, null, null, null, null);
+        //    }
+        //    #endregion
+        //    return content;
+        //}
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
