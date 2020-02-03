@@ -9,8 +9,8 @@
         Height="450" 
         Width="800">
     <Grid>
-        <StackPanel>
-            <DockPanel>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Left">
                 <DataGrid x:Name="PlannerDataGrid" 
                 AutoGenerateColumns="True"
                 ColumnWidth="*"
@@ -23,8 +23,10 @@
                 SelectionUnit="Cell"
                 SelectionMode="Extended">
                 </DataGrid>
-            </DockPanel>
-            <Button x:Name="CreatePlannerButton" Margin="0,10,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Confirm" Background="#D4D4D4D4" Click="CreatePlannerButton_Click"/>
-        </StackPanel>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Left">
+                <Button x:Name="CreatePlannerButton" Margin="0,10,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Confirm" Background="#D4D4D4D4" Click="CreatePlannerButton_Click"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

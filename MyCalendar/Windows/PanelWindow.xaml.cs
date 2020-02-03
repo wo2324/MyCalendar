@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyCalendar.Windows;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -68,14 +69,14 @@ namespace MyCalendar
 
         private void PlannersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PlannerWindow planner = new PlannerWindow(GetContent(PlannersListBox.SelectedItem.ToString()));
+            PlannerWindow planner = new PlannerWindow(new Planner(PlannersListBox.SelectedItem.ToString(), GetContent(PlannersListBox.SelectedItem.ToString())));
             planner.Show();
         }
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)//obsługa plannerDescription
         {
             CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id); 
-            PlannerWindow planner = new PlannerWindow(GetContent(CreatePlannerTextBox.Text));
+            PlannerWindow planner = new PlannerWindow(new Planner(CreatePlannerTextBox.Text, GetContent(CreatePlannerTextBox.Text)));
             planner.Show();
             AdjustPlannerListBox();
             CreatePlannerTextBox.Clear();
