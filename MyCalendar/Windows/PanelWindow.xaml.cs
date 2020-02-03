@@ -68,14 +68,14 @@ namespace MyCalendar
 
         private void PlannersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Planner planner = new Planner(GetContent(PlannersListBox.SelectedItem.ToString()));
+            PlannerWindow planner = new PlannerWindow(GetContent(PlannersListBox.SelectedItem.ToString()));
             planner.Show();
         }
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)//obsługa plannerDescription
         {
             CreatePlanner(CreatePlannerTextBox.Text, null, Participant.Participant_Id); 
-            Planner planner = new Planner(GetContent(CreatePlannerTextBox.Text));
+            PlannerWindow planner = new PlannerWindow(GetContent(CreatePlannerTextBox.Text));
             planner.Show();
             AdjustPlannerListBox();
             CreatePlannerTextBox.Clear();
