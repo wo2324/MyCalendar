@@ -87,7 +87,7 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\DbHandler.cs" />
-    <Compile Include="Windows\TaskType.cs" />
+    <Compile Include="Utils\TaskType.cs" />
     <Page Include="Windows\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
