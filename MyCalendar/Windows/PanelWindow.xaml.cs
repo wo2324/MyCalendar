@@ -71,6 +71,7 @@ namespace MyCalendar
         {
             PlannerWindow planner = new PlannerWindow(this.Participant , new Planner(PlannersListBox.SelectedItem.ToString(), GetContent(PlannersListBox.SelectedItem.ToString())));
             planner.Show();
+            planner.Color();
         }
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)//obsługa plannerDescription

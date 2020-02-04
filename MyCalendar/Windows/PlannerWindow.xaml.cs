@@ -36,7 +36,8 @@ namespace MyCalendar
             PlannerDataGrid.ItemsSource = planner.Task.DefaultView;
             this.plannerName = planner.PlannerName;
             this.participant = participant;
-            
+
+            Color();
 
         }
 
