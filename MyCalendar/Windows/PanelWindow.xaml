@@ -24,7 +24,11 @@
                     <Separator Foreground="#E9E9E9E9"></Separator>
                     <Label HorizontalAlignment="Left" Content="Planner name" FontSize="12" Foreground="#D4D4D4D4"/>
                     <TextBox x:Name="CreatePlannerTextBox" Foreground="#1B1B1B" Background="#E9E9E9E9"/>
+                    <Expander Header="Custm">
+                        
+                    </Expander>
                     <Button x:Name="CreatePlannerButton" Margin="0,10,0,0" HorizontalAlignment="Right" Content="Create" Background="#D4D4D4D4" Click="CreatePlannerButton_Click"/>
+
                 </StackPanel>
             </Border>
             <Border DockPanel.Dock="Right" Width="200" Margin="10" VerticalAlignment="Top" Background="#50514F" CornerRadius="10">
