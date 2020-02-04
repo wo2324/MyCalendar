@@ -76,5 +76,12 @@ namespace MyCalendar
             PasswordBox.Clear();
             PasswordBox_1.Clear();
         }
+
+        private void BackToLoginWIndowButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
+        }
     }
 }

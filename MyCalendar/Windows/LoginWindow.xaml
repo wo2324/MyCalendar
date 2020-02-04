@@ -12,7 +12,6 @@
     <Grid Background="#747474">
         <Border Height="260" Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#50514F" CornerRadius="10">
             <StackPanel Margin="20">
-                <Button x:Name="ExitButton" HorizontalAlignment="Left" Content="Exit" Background="#D4D4D4D4"/>
                 <Label HorizontalAlignment="Center" Content="Login" FontSize="32" Foreground="#D4D4D4D4"/>
                 <Separator Foreground="#E9E9E9E9"></Separator>
                 <Label HorizontalAlignment="Left" Content="Login" FontSize="12" Foreground="#D4D4D4D4"/>
@@ -20,9 +19,14 @@
                 <Label HorizontalAlignment="Left" Content="Password" FontSize="12" Foreground="#D4D4D4D4"/>
                 <PasswordBox x:Name="PasswordBox" Foreground="#1B1B1B" Background="#E9E9E9E9"/>
                 <StackPanel Margin="0,10,0,15">
-                    <Button HorizontalAlignment="Right" Width="{Binding ElementName=RegisterButton, Path=ActualWidth}" Content="Login" Background="#D4D4D4D4" Click="Button_Click"/>
+                    <Button HorizontalAlignment="Right" Content="Login" Background="#D4D4D4D4" Click="Button_Click"/>
                 </StackPanel>
-                <Button x:Name="RegisterButton" HorizontalAlignment="Right" Content="Register" Background="#D4D4D4D4" Click="Button_Click_1"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Don't have an account?</Label>
+                    <Button x:Name="RegisterButton" HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Button_Click_1">
+                        <TextBlock TextDecorations="Underline">Sign up</TextBlock>
+                    </Button>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
