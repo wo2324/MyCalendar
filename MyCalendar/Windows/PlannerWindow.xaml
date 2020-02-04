@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyCalendar"
+        xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Planner" 
         Height="450" 
@@ -24,20 +25,30 @@
                     CanUserResizeRows="False"
                     CanUserAddRows="False"
                     SelectionUnit="Cell"
-                    SelectionMode="Extended"
-                      >
+                    SelectionMode="Extended">
             </DataGrid>
         </ScrollViewer>
         <StackPanel Grid.Column="1">
             <Button x:Name="CreatePlannerButton" Margin="0,10,0,0" VerticalAlignment="Bottom" Content="Confirm" Background="#D4D4D4D4" Click="CreatePlannerButton_Click"/>
             <Expander Header="Create task">
-                
+                <StackPanel>
+                    <Label>Name</Label>
+                    <TextBox x:Name="TaskTypeName" TextChanged="TextBox_TextChanged"></TextBox>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Is visible</Label>
+                        <CheckBox  x:Name="TextVisibility" IsChecked="False" Checked="CheckBox_Checked"></CheckBox>
+                    </StackPanel>
+                    <Label>Color</Label>
+                    <wpfx:ColorPicker Name="ColorPicker1" Height="17.6" DisplayColorAndName="True" SelectedColorChanged="ColorPicker1_SelectedColorChanged"/>
+                    <Button x:Name="AddButton" Click="AddButton_Click" >Add</Button>
+                </StackPanel>
             </Expander>
             <Expander Header="Tasks" IsExpanded="True">
-
+                <ListBox></ListBox>
             </Expander>
             <Expander Header="Show planner details">
-                <Label>Details</Label>
+                <ListBox></ListBox>
+
             </Expander>
         </StackPanel>
     </Grid>

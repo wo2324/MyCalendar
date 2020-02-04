@@ -15,8 +15,7 @@
                 <StackPanel Margin="20">
                     <Label HorizontalAlignment="Left" Content="Open existing planner" FontSize="16" Foreground="#D4D4D4D4"/>
                     <Separator Foreground="#E9E9E9E9"></Separator>
-                    <ListBox x:Name="PlannersListBox" SelectionChanged="PlannersListBox_SelectionChanged">
-                    </ListBox>
+                    <ListBox x:Name="PlannersListBox" SelectionChanged="PlannersListBox_SelectionChanged"/>
                 </StackPanel>
             </Border>
             <Border DockPanel.Dock="Left" Width="200" Margin="10" VerticalAlignment="Top" Background="#50514F" CornerRadius="10">

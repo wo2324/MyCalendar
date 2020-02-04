@@ -28,12 +28,16 @@ namespace MyCalendar
         public string StopTime { get; set; }
         public string TimeSpan { get; set; }
         public string plannerName;
+        public Participant participant { get; set; }
 
-        public PlannerWindow(Planner planner)
+        public PlannerWindow(Participant participant, Planner planner)
         {
             InitializeComponent();
             PlannerDataGrid.ItemsSource = planner.Task.DefaultView;
             this.plannerName = planner.PlannerName;
+            this.participant = participant;
+            
+
         }
 
         private void CreatePlannerButton_Click(object sender, RoutedEventArgs e)
@@ -94,7 +98,8 @@ namespace MyCalendar
 
                 EditTask(this.plannerName, result);
 
-                GetDataGridRows();
+                //GetDataGridRows();
+                Color();
 
             }
             catch (Exception exception)
@@ -121,10 +126,51 @@ namespace MyCalendar
             }
         }
 
-        public void GetDataGridRows()
+        public void Color()
         {
-            List<string> dataList = new List<string>();
+            DataSet ds = GetTaskTypeName(this.participant.Participant_Name, this.plannerName);
+            DataTable dt = ds.Tables[0];
 
+            //dla każdej definicji koloruj :)
+            foreach (DataRow item in dt.Rows)
+            {
+                string name = item["TaskType_Name"].ToString();
+                string color = item["TaskType_Color"].ToString();
+                GetDataGridRows(name, color);
+            }
+        }
+
+        public DataSet GetTaskTypeName(string participantName, string plannerName)
+        {
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_TaskTypeGet";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Participant_Name", participantName));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", plannerName));
+
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                    if (sqlConnection.State == ConnectionState.Closed)
+                    {
+                        sqlConnection.Open();
+                    }
+
+                    DataSet dataSet = new DataSet();
+                    sqlDataAdapter.Fill(dataSet);
+
+                    return dataSet;
+                }
+            }
+        }
+
+        public void GetDataGridRows(string task, string color)
+        {
             for (int i = 0; i < PlannerDataGrid.Items.Count; i++)
             {
                 for (int j = 0; j < PlannerDataGrid.Columns.Count; j++)
@@ -132,9 +178,11 @@ namespace MyCalendar
                     //loop throught cell
                     DataGridCell cell = GetCell(i, j);
                     TextBlock tb = cell.Content as TextBlock;
-                    if (tb.Text == "sen")
+                    if (tb.Text == task)
                     {
-                        cell.Background = Brushes.Red;
+                        var converter = new System.Windows.Media.BrushConverter();
+                        var brush = (Brush)converter.ConvertFromString(color);
+                        cell.Background = brush;
                     }
                 }
             }
@@ -205,6 +253,56 @@ namespace MyCalendar
                 }
             }
             return child;
+        }
+
+        public TaskType taskType { get; set; }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string sample = TaskTypeName.Text;
+            this.taskType = new TaskType(sample);
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            bool visibility = TextVisibility.IsEnabled;
+            this.taskType.TaskTypeVisibility = visibility;
+        }
+
+        private void ColorPicker1_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            var value = ColorPicker1.SelectedColor;
+            this.taskType.TaskTypeColor = value.ToString();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.taskType.ToString();
+            CreateAccount();
+
+            //zasilenie bazy
+        }
+
+        public void CreateAccount()
+        {
+            string connectionString = ConfigurationManager.AppSettings["connectionStirng"].ToString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "mc.usp_TaskTypeAdd";
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_Planner_Name", this.plannerName));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_TaskType_Name", this.taskType.TaskTypeName));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_TaskType_Description", ""));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_TaskType_TextVisibility", this.taskType.TaskTypeVisibility));
+                    sqlCommand.Parameters.Add(new SqlParameter("@p_TaskType_Color", this.taskType.TaskTypeColor));
+
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
